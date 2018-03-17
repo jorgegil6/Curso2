@@ -22,9 +22,9 @@ class CreateTableEmpleado extends Migration
             $table->string ('nombre');
             $table->date('fecha_nacimiento');
             $table->enum ('sexo',['HOMBRE','MUJER']);
-            $table->integer('id_departamento')->unasigned();
+            $table->integer('id_departamento')->unsigned();
             $table->foreign('id_departamento')->references('id')->on('departamentos');
-            $table->integer('id_turno')->unasigned();
+            $table->integer('id_turno')->unsigned();
             $table->foreign('id_turno')->references('id')->on('cat_turnos');
             $table->timestamps ();
 
