@@ -13,5 +13,5 @@ class Turno extends Model
  	return $this->hasMany('App\Empleado','id_turno','id');
 
  }
-    public function setDescriptionAttribute($value);
+    //public function setDescriptionAttribute($value);
 }

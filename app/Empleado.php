@@ -20,5 +20,6 @@ class Empleado extends Model
     	return $this->belongsTo('App\Departamento');
     }
     public function turno(){
-    	return $this->belongsTo('App\Turnp');
+    	return $this->belongsTo('App\Turno');
     }
+}

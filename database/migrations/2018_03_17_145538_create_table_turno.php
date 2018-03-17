@@ -15,7 +15,7 @@ class CreateTableTurno extends Migration
     {
         Schema::create('cat_turnos',function(Blueprint $table){
             $table->increments('id');
-            $table->string('description');
+            $table->string('descripcion');
             $table->timestamps();
         });
         //
