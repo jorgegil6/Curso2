@@ -13,4 +13,11 @@
 
 Route::get('/', function () {
     return view('welcome');
+
+});
+Route::get('prueba',function(){
+	return "Hola desde routes";
+});
+Route::get('empleados',function(){
+	Route::resource('empleados', 'EmpleadoController');
 });
