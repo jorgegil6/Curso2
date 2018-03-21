@@ -1,5 +1,4 @@
-@extends('Layouts.app')
-@section('content')
+<h1>{!!}
 {!! Form::model($Empleado, ['action' => ‘EmpleadoController@store']) !!}
 		<div class="form-group">
 			{!! Form::label('name', 'Nombre') !!}

@@ -9,6 +9,7 @@ class Empleado extends Model
     protected $fillable=[
          
          'matricula',
+         'paterno',
          'materno',
          'nombre',
          'fecha_nacimiento',

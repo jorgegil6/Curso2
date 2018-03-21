@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Empleado;
+use App\Turno;
+use App\Departamento;
 class EmpleadoController extends Controller
 {
     /**
@@ -13,7 +15,10 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        //
+         $empleados=Empleado::paginate(8);
+        //DB::table('empleados')->paginate(15);
+       
+       return view('empleados.index',['empleados'=>$empleados]); //
     }
 
     /**
@@ -23,7 +28,14 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
-        return view('tasks.agregar');//
+        $empleado= new Empleado;
+        $turnos=Turno::all()->pluck('descripcion','id');
+        $sexos = array('HOMBRE' =>'HOMBRE' ,'MUJER'=>'MUJER' );
+        $departamentos=Departamento::all()->pluck('descripcion','id');
+        return view('empleados.create',['empleado'=>$empleado,
+                                        'sexos'=>$sexos,
+                                        'turnos'=>$turnos,
+                                        'departamentos'=>$departamentos]);//
     }
 
     /**
@@ -34,7 +46,32 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request)
     {
-       return $request->user(); //
+
+          $validatedData = $request->validate([
+        'matricula' => 'required|unique:empleados|min:3|max:4',
+        'paterno' => 'required',
+        'materno' => 'required',
+        'nombre' => 'required',
+        'fecha_nacimiento' => 'required',
+       ]);
+       //dd($request->toArray());
+       $empleado= new Empleado($request->all());
+      
+      /* $empleado->matricula=$request->input['matricula'];
+       $empleado->nombre=$require->input['nombre'];
+       $empleado->paterno=$request->input['paterno'];
+       $empleado->materno=$request->input['materno'];
+       $empleado->fecha_nacimiento=$request->input['fecha_nacimiento'];
+       $empleado->sexos=$request->input['sexos'];
+       $empleado->turnos=$request->input['turnos'];
+       $empleado->departamentos=$request->input['departamentos'];*/
+
+       $empleado->save();
+       if($empleado){
+        echo"Los datos se guardaron correctamente";
+       }else
+       echo "Los datos no se guardaron";
+       //return $this->index();
     }
 
     /**
@@ -56,8 +93,12 @@ class EmpleadoController extends Controller
      */
     public function edit($id)
     {
-       return view('tasks.editar');// //
-    }
+       $empleados=Empleado::find($id);// 
+ $turnos=Turno::all()->pluck('descripcion','id');
+ $sexos = array('HOMBRE' =>'HOMBRE' ,'MUJER'=>'MUJER' );
+        $departamentos=Departamento::all()->pluck('descripcion','id');
+        return view('empleados.edit',compact('empleados','turnos','sexos','departamentos'));
+           }
 
     /**
      * Update the specified resource in storage.
@@ -68,7 +109,19 @@ class EmpleadoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $empleados=Empleado::find($id);
+//$empleados=$request->all();
+       $empleados->matricula=$request->input('matricula');
+       $empleados->nombre=$request->input('nombre');
+       $empleados->paterno=$request->input('paterno');
+       $empleados->materno=$request->input('materno');
+       $empleados->fecha_nacimiento=$request->input('fecha_nacimiento');
+       $empleados->sexo=$request->input('sexo');
+       $empleados->id_turno=$request->input('id_turno');
+       $empleados->id_departamento=$request->input('id_departamento');
+
+       $empleados->save();//
+       return $this->index();
     }
 
     /**
@@ -79,6 +132,9 @@ class EmpleadoController extends Controller
      */
     public function destroy($id)
     {
-      return view('tasks.eliminar');//  //
+      $empleado=Empleado::find($id);
+      
+       $empleado->delete();//
+      return $this->index();
     }
 }

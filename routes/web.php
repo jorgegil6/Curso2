@@ -18,6 +18,7 @@ Route::get('/', function () {
 Route::get('prueba',function(){
 	return "Hola desde routes";
 });
-Route::get('empleados',function(){
-	Route::resource('empleados', 'EmpleadoController');
-});
+//Route::get('/empleados','EmpleadoController@index');
+//Route::get('/empleados/create','EmpleadoController@create');
+//Route::post('/empleados/store','EmpleadoController@store');
+Route::resource('/empleados','EmpleadoController');
